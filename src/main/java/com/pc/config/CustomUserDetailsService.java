@@ -9,13 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.pc.entity.User;
-import com.pc.repositry.UserRepo;
+import com.pc.repositry.UserDao;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Autowired
-	private UserRepo userRepo ;
+	private UserDao userRepo ;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

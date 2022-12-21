@@ -7,16 +7,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pc.entity.Address;
 import com.pc.entity.Course;
-import com.pc.entity.CurrentStudentSession;
 import com.pc.entity.Student;
 import com.pc.entity.User;
+import com.pc.entity.DTOs.StudentDTO;
 import com.pc.entity.DTOs.UpdateStudentDTO;
 import com.pc.exception.StudentException;
-import com.pc.exception.UserException;
+import com.pc.repositry.AddressDao;
 import com.pc.repositry.CourseDao;
 import com.pc.repositry.StudentDao;
-import com.pc.repositry.UserDao;
 
 @Service
 public class StudentServiceImpl implements StudentService  {
@@ -25,7 +25,7 @@ public class StudentServiceImpl implements StudentService  {
 	@Autowired
 	private CourseDao courseDao ;
 	@Autowired
-	private UserDao userDao ;
+	private AddressDao addressDao ;
 	@Autowired
 	private ModelMapper modelMapper ;
 	@Override
@@ -35,10 +35,14 @@ public class StudentServiceImpl implements StudentService  {
 	}
 	
 	@Override
-	public Student updateProfile(Integer studentCode, UpdateStudentDTO updatedProfile) throws StudentException {
+	public Student updateProfile(StudentDTO studentDto, UpdateStudentDTO updatedProfile) throws StudentException {
 		if(updatedProfile == null) throw new StudentException("profile update should not be null") ;
-		if(studentCode != updatedProfile.getStudentCode() ) throw new StudentException("Student code should be same"); 
-		return dtoToStudent(updatedProfile) ;
+		
+		if(studentDto.getStudentCode() != updatedProfile.getStudentCode() ) throw new StudentException("Student code should be same");
+		validateStudent(studentDto) ;
+		Student newStudent = dtoToStudent(updatedProfile) ;
+		
+		return studentDao.save(newStudent) ;
 	}
 	
 	
@@ -52,34 +56,28 @@ public class StudentServiceImpl implements StudentService  {
 
 	@Override
 	public List<Course> findCourses(Integer studentCode) throws StudentException {
-		//Changes Required 
-		Optional<Student> student =  studentDao.findById(studentCode) ;
-		if(student.isEmpty()) throw new StudentException("Student code is not correcct") ;
+		Student student = findByStudentCode(studentCode) ;
 		
-		return student.get().getCourseList();
+		return student.getCourseList();
 	}
 	
 	@Override
-	public Student leaveACourse(Integer studentCode, Integer courseId) throws StudentException {
-		/// Changes Requires
+	public Student leaveACourse(StudentDTO studentDto, Integer courseId) throws StudentException {
 		
-		Optional<CurrentStudentSession> studentSession = curStuSessionDao.findByUuid(studentSessionId) ;
-		if(studentSession.isEmpty()) throw new UserException("Student is not login...or session id is incorrect") ;
-		
-		Optional<Student> student =  studentDao.findById(studentCode) ;
-		if(student.isEmpty()) throw new UserException("Student code is not correcct") ;
+		Student student =  validateStudent(studentDto) ;
 		
 		Optional<Course> course = courseDao.findById(courseId) ;
-		if(course.isEmpty()) throw new UserException("course id is not correct")  ;
+		if(course.isEmpty()) throw new StudentException("course id is not correct")  ;
 		
-		List<Course> courseList = student.get().getCourseList() ;
-		if(courseList.size() ==0) throw new UserException("student does not have anny course yet!");
 		
-		if(!courseList.remove(course.get())) throw new UserException("does not able to delete course.. try after some time") ;
+		List<Course> courseList = student.getCourseList() ;
+		if(courseList.size() ==0) throw new StudentException("student does not have anny course yet!");
 		
-		student.get().setCourseList(courseList); ;
+		if(!courseList.remove(course.get())) throw new StudentException("does not able to delete course.. try after some time") ;
 		
-		return studentDao.save(student.get()) ;
+		student.setCourseList(courseList); 
+		
+		return studentDao.save(student) ;
 	}
 	
 	@Override
@@ -87,8 +85,26 @@ public class StudentServiceImpl implements StudentService  {
 		if(name == null) throw new StudentException("name should not be null") ;
 		return studentDao.findByName(name) ;
 	}
-	
 
+	@Override
+	public Student addAddress(Integer studentCode, Integer addressId) throws StudentException {
+		Student student = findByStudentCode(studentCode) ;
+		List<Address> addressList = student.getAddress() ;
+		
+		Optional<Address> address = addressDao.findById(addressId) ;
+		if(address.isEmpty()) throw new StudentException("adress should not be null") ;
+		
+		addressList.add(address.get()) ;
+		student.setAddress(addressList);
+		
+		return studentDao.save(student) ;
+	}
+	
+	public Student validateStudent(StudentDTO studentDto) throws StudentException {
+		Optional<Student> student =  studentDao.findByStudentCodeandDob(studentDto.getStudentCode(), studentDto.getDob()) ;
+		if(student.isEmpty()) throw new StudentException("student details not correct") ;
+		return student.get() ;
+	}
 	
 	public User dtoToUser(UpdateStudentDTO profile) {
 		return  modelMapper.map(profile, User.class) ;
