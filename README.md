@@ -38,7 +38,7 @@
 - Update the port number, database username and password as per your local database config.
 
 ```
-    server.port=8888
+    server.port=8800
 
     spring.datasource.url=jdbc:mysql://localhost:3306/stuManagementSystem
     spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
