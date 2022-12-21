@@ -1,24 +1,27 @@
 # StudentManagement-System portal
 ## Description
-- We developed REST API for a Student-Management application. This API performs all the fundamental CRUD operations of any Student management platform with validation at every step.
+- Developed REST API for Student-Management application. API performs all the fundamental CRUD operations of any Student management platform with validation at every step .
 
 ## Techstack
 - Java
 - Spring Framework
 - Spring Boot
+- Spring Security
 - Spring Data JPA with Hibernate
 - MySQL
 
+
 ## Module
+- User Module
 - Student Module
 - Course Module
-- Profile Module
 - StudentDTO Module
-- CurrentAdminSession and CurrentStudentSesssion Module
 
 
 ## Features
-- User and Admin authentication & validation with using Session management (UUID)
+- User and Admin authentication & autherization with role base authentication.
+- Swagger documentation.
+
 * Admin Features : 
    * Admin can add a student with his information.
    * Admin can upload a course details and assign a course to student.
@@ -42,4 +45,10 @@
     spring.datasource.username=root
     spring.datasource.password=root
     
+```
+## Admin credential
+```
+UserName = "paras@gmail.com"
+Password = "admin@123"
+
 ```
