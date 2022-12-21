@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,9 +28,13 @@ public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
  	private Integer courseId ;
+	
+	@NotNull
 	private String courseName ;
 	private String description ;
 	private String courseType ; 
+	
+	@Valid
 	private LocalDate duration ;
 	
 	private String topics ;

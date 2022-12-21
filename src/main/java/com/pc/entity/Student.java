@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.pc.enums.Gender;
@@ -31,6 +32,7 @@ public class Student {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer studentCode ;
 	private String name;
+	@NotNull
 	private  LocalDate dob;
 	private  Gender gender ;
 	
