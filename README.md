@@ -31,7 +31,7 @@
     
 ## Installation & Run
 
-- Before running the API server, you should update the database config inside the [application.properties](https://github.com/shubhamgarg7239/Student-Management-System/tree/main/src/main/resources ) file.
+- Before running the API server, you should update the database config inside the [application.properties](https://github.com/shubhamgarg7239/StudentManagement-System/tree/main/src/main/resources ) file.
 - Update the port number, database username and password as per your local database config.
 
 ```
