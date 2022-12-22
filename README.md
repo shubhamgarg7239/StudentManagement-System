@@ -49,6 +49,6 @@
 ## Admin credential
 ```
 UserName = "paras@gmail.com"
-Password = "admin@123"
+Password = admin@123
 
 ```
