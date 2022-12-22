@@ -23,9 +23,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 			http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/login/").permitAll()
-			.antMatchers("/dum").hasRole("ADMIN")
-			.antMatchers("/b").hasRole("NORMAL")
+//			.antMatchers("").permitAll()
+			.antMatchers("/admin/++").hasRole("ADMIN")
+//			.antMatchers("").hasRole("NORMAL")
 			.anyRequest()
 			.authenticated()
 			.and()
@@ -39,6 +39,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(10) ;	
+		return new BCryptPasswordEncoder(8) ;	
 	}
 }
