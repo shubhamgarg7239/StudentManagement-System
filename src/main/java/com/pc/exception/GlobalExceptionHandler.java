@@ -16,6 +16,16 @@ public class GlobalExceptionHandler {
 		MyErrorDetail med = new MyErrorDetail(exc.getMessage(), req.getDescription(false), LocalDateTime.now()) ; 
 		return new ResponseEntity<MyErrorDetail>(med, HttpStatus.BAD_REQUEST) ;
 	}
+	@ExceptionHandler(CourseException.class)
+	public ResponseEntity<MyErrorDetail> courseExceptionHandler(CourseException exc, WebRequest req) {
+		MyErrorDetail med = new MyErrorDetail(exc.getMessage(), req.getDescription(false), LocalDateTime.now()) ; 
+		return new ResponseEntity<MyErrorDetail>(med, HttpStatus.BAD_REQUEST) ;
+	}
+	@ExceptionHandler(StudentException.class)
+	public ResponseEntity<MyErrorDetail> studentExceptionHandler(StudentException exc, WebRequest req) {
+		MyErrorDetail med = new MyErrorDetail(exc.getMessage(), req.getDescription(false), LocalDateTime.now()) ; 
+		return new ResponseEntity<MyErrorDetail>(med, HttpStatus.BAD_REQUEST) ;
+	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<MyErrorDetail> ExceptionHandler(Exception exc, WebRequest req) {

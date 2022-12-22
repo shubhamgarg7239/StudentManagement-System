@@ -25,7 +25,7 @@ public class CourseController {
 	private CourseService courseService ;
 	
 	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping("/addCourse")
+	@PostMapping("/addCourse/")
 	public ResponseEntity<Course> addCourseHandler(@RequestBody Course course) throws CourseException{
 		Course addedCourse = courseService.addCourse(course) ;
 		return new ResponseEntity<Course>(addedCourse, HttpStatus.CREATED) ;

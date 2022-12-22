@@ -30,8 +30,6 @@ public class User {
 	private String email ;
 	
 	@NotNull
-	@Size(min = 6, max = 16, message = "password size must be in Between 6 to 16")
-	@Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=//S+$).{6,16}$")
 	private String  password ;
 	
 	@NotNull
